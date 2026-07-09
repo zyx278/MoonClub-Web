@@ -1,72 +1,86 @@
 <template>
 
-<section class="banner">
+<div class="banner">
 
 
-  <div class="left">
+  <!-- 左侧文字区域 -->
+  <div class="banner-content">
 
 
-    <h1>
-      🌙 皎月电竞 Club
-    </h1>
+    <div class="brand">
 
 
-
-    <h2>
-      专业三角洲行动护航俱乐部
-    </h2>
-
+      <span class="moon">
+        🌙
+      </span>
 
 
-    <p>
-      ⭐ 全绿护航 · ⭐ 极速发车 · ⭐ 售后无忧
-    </p>
-
-
-
-    <p class="slogan">
-
-      每一次出征，都值得胜利
-
-    </p>
-
-
-
-  </div>
-
-
-
-
-
-  <div class="right">
-
-
-    <div class="image">
-
-
-      <!--
-        后续这里改成活动轮播组件
-
-        例如：
-        ActivityBanner.vue
-
-      -->
-
-
-      活动宣传图
+      <h1>
+        皎月电竞 Club
+      </h1>
 
 
     </div>
 
 
+
+    <p class="desc">
+      专业三角洲行动护航俱乐部
+    </p>
+
+
+
+    <div class="tags">
+
+      <span>
+        ⭐ 全绿护航
+      </span>
+
+      <span>
+        ⭐ 极速发车
+      </span>
+
+      <span>
+        ⭐ 售后无忧
+      </span>
+
+    </div>
+
+
+
+    <h2>
+      每一次出征，都值得胜利
+    </h2>
+
+
+
   </div>
 
 
 
-</section>
+
+
+  <!-- 右侧活动图片 -->
+  <div class="banner-image">
+
+
+      <div class="image-placeholder">
+
+          活动宣传图
+
+
+      </div>
+
+
+  </div>
+
+
+
+
+</div>
+
 
 </template>
-
 
 
 
@@ -81,8 +95,6 @@
 
 
 
-
-
 <style scoped>
 
 
@@ -92,16 +104,17 @@
     width:100%;
 
 
-    height:420px;
+    height:260px;
 
 
-    background:linear-gradient(135deg,#2563eb,#60a5fa);
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #60a5fa
+    );
 
 
-    border-radius:24px;
-
-
-    margin-top:25px;
+    border-radius:20px;
 
 
     display:flex;
@@ -113,7 +126,23 @@
     align-items:center;
 
 
-    padding:60px;
+    padding:0 55px;
+
+
+    box-sizing:border-box;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+
+/* 左侧内容 */
+
+.banner-content{
 
 
     color:white;
@@ -123,12 +152,59 @@
 
 
 
+.brand{
 
 
-.left{
+    display:flex;
 
 
-    width:50%;
+    align-items:center;
+
+
+    gap:15px;
+
+
+}
+
+
+
+.moon{
+
+
+    font-size:42px;
+
+
+}
+
+
+
+.brand h1{
+
+
+    font-size:42px;
+
+
+    margin:0;
+
+
+    font-weight:800;
+
+
+}
+
+
+
+
+.desc{
+
+
+    font-size:20px;
+
+
+    margin-top:15px;
+
+
+    margin-bottom:18px;
 
 
 }
@@ -137,13 +213,27 @@
 
 
 
-.left h1{
+.tags{
 
 
-    font-size:48px;
+    display:flex;
 
 
-    margin-bottom:15px;
+    gap:18px;
+
+
+    font-size:16px;
+
+
+}
+
+
+
+
+.tags span{
+
+
+    white-space:nowrap;
 
 
 }
@@ -152,52 +242,16 @@
 
 
 
-.left h2{
+.banner-content h2{
 
 
-    font-size:24px;
+    margin-top:25px;
 
 
-    font-weight:400;
+    font-size:22px;
 
 
-    margin-bottom:20px;
-
-
-}
-
-
-
-
-
-.left p{
-
-
-    font-size:18px;
-
-
-    opacity:.95;
-
-
-    margin-bottom:20px;
-
-
-}
-
-
-
-
-
-.slogan{
-
-
-    font-size:22px !important;
-
-
-    font-weight:bold;
-
-
-    margin-top:35px;
+    font-weight:700;
 
 
 }
@@ -207,10 +261,17 @@
 
 
 
-.right{
+
+/* 右侧图片 */
 
 
-    width:40%;
+.banner-image{
+
+
+    width:320px;
+
+
+    height:180px;
 
 
     display:flex;
@@ -219,22 +280,23 @@
     justify-content:center;
 
 
+    align-items:center;
+
+
 }
 
 
 
+.image-placeholder{
 
 
-.image{
+    width:100%;
 
 
-    width:360px;
+    height:100%;
 
 
-    height:260px;
-
-
-    background:rgba(255,255,255,.2);
+    background:rgba(255,255,255,.18);
 
 
     border-radius:20px;
@@ -249,13 +311,19 @@
     align-items:center;
 
 
-    font-size:28px;
+    color:white;
 
 
-    backdrop-filter:blur(10px);
+    font-size:24px;
+
+
+    font-weight:bold;
 
 
 }
+
+
+
 
 
 

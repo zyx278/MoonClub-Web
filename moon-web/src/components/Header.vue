@@ -3,10 +3,14 @@
 <header class="header">
 
 
+  <!-- Logo -->
+
   <div class="logo">
 
 
-    🌙
+    <div class="moon">
+      🌙
+    </div>
 
 
     <div>
@@ -30,32 +34,35 @@
 
 
 
+  <!-- 官网导航 -->
+
   <nav class="nav">
 
 
-    <a href="#">
-      首页
-    </a>
+    <div
+        class="nav-item"
+        @click="goOrder"
+    >
+      订单合集
+    </div>
 
 
-    <a href="#">
-      体验单
-    </a>
+
+    <div
+        class="nav-item"
+        @click="comingSoon"
+    >
+      租号大厅
+    </div>
 
 
-    <a href="#">
-      护航单
-    </a>
 
-
-    <a href="#">
-      趣味单
-    </a>
-
-
-    <a href="#">
-      活动专区
-    </a>
+    <div
+        class="nav-item"
+        @click="comingSoon"
+    >
+      最新公告
+    </div>
 
 
   </nav>
@@ -64,7 +71,7 @@
 
 
 
-  <!-- 公共联系客服组件 -->
+  <!-- 联系客服 -->
 
   <ContactButton />
 
@@ -79,14 +86,49 @@
 
 
 
+
 <script setup>
 
 
 import ContactButton from "./contact/ContactButton.vue"
 
+import {
+  useRouter
+} from "vue-router"
+
+
+
+const router = useRouter()
+
+
+
+
+
+// 订单合集
+
+function goOrder(){
+
+  router.push("/")
+
+}
+
+
+
+
+
+// 暂未开放
+
+function comingSoon(){
+
+  alert("功能正在施工中，敬请期待！")
+
+}
+
 
 
 </script>
+
+
 
 
 
@@ -134,6 +176,7 @@ import ContactButton from "./contact/ContactButton.vue"
 
 
 
+
 .logo{
 
 
@@ -151,6 +194,18 @@ import ContactButton from "./contact/ContactButton.vue"
 
 
 
+
+.moon{
+
+
+    font-size:38px;
+
+}
+
+
+
+
+
 .logo h1{
 
 
@@ -160,7 +215,11 @@ import ContactButton from "./contact/ContactButton.vue"
     font-size:32px;
 
 
+    margin:0;
+
+
 }
+
 
 
 
@@ -174,7 +233,11 @@ import ContactButton from "./contact/ContactButton.vue"
     font-size:14px;
 
 
+    margin-top:4px;
+
+
 }
+
 
 
 
@@ -185,7 +248,7 @@ import ContactButton from "./contact/ContactButton.vue"
     display:flex;
 
 
-    gap:40px;
+    gap:55px;
 
 
 }
@@ -193,13 +256,72 @@ import ContactButton from "./contact/ContactButton.vue"
 
 
 
-.nav a{
+
+.nav-item{
 
 
     color:#444;
 
 
-    font-size:17px;
+    font-size:18px;
+
+
+    cursor:pointer;
+
+
+    transition:.3s;
+
+
+    position:relative;
+
+
+}
+
+
+
+
+
+.nav-item:hover{
+
+
+    color:#2563eb;
+
+
+}
+
+
+
+
+
+
+.nav-item::after{
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    bottom:-8px;
+
+
+    left:50%;
+
+
+    width:0;
+
+
+    height:3px;
+
+
+    background:#2563eb;
+
+
+    border-radius:3px;
+
+
+    transform:translateX(-50%);
 
 
     transition:.3s;
@@ -210,13 +332,16 @@ import ContactButton from "./contact/ContactButton.vue"
 
 
 
-.nav a:hover{
+
+.nav-item:hover::after{
 
 
-    color:#2563eb;
+    width:100%;
 
 
 }
+
+
 
 
 
