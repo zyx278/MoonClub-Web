@@ -1,0 +1,27 @@
+package club.jiaoyue.moonapi.entity;
+
+
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+
+@Data
+public class OrderType {
+
+
+    private Long id;
+
+
+    private String name;
+
+
+    private Integer sort;
+
+
+    private Integer status;
+
+
+    private LocalDateTime createTime;
+
+}
