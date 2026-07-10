@@ -4,35 +4,36 @@
   <div class="layout">
 
 
+    <!-- 左侧分类 -->
 
-    <!-- 左侧分类导航 -->
+    <CategorySidebar
 
-    <CategorySidebar />
+        @change="changeCategory"
+
+    />
 
 
 
 
 
-    <!-- 右侧主要内容 -->
+    <!-- 右侧内容 -->
 
     <div class="content">
 
-
-
-      <!-- Banner宣传区域 -->
 
       <Banner />
 
 
 
 
-
-      <!-- 商品列表 -->
-
       <div class="order-area">
 
 
-        <OrderList />
+        <OrderList
+
+            :category="currentCategory"
+
+        />
 
 
       </div>
@@ -40,7 +41,6 @@
 
 
     </div>
-
 
 
 
@@ -53,10 +53,15 @@
 
 
 
-
-
-
 <script setup>
+
+
+import {
+
+  ref
+
+} from "vue"
+
 
 
 import CategorySidebar from "./CategorySidebar.vue"
@@ -64,6 +69,43 @@ import CategorySidebar from "./CategorySidebar.vue"
 import Banner from "./Banner.vue"
 
 import OrderList from "./OrderList.vue"
+
+
+
+
+
+/**
+ * 当前选择分类
+ */
+const currentCategory = ref(
+
+    "热门推荐"
+
+)
+
+
+
+
+
+
+
+/**
+ * 接收左侧分类点击
+ */
+function changeCategory(category){
+
+
+  console.log(
+      "当前选择分类:",
+      category
+  )
+
+
+
+  currentCategory.value = category
+
+
+}
 
 
 
@@ -75,9 +117,7 @@ import OrderList from "./OrderList.vue"
 
 
 
-
 <style scoped>
-
 
 
 .layout{
@@ -104,6 +144,7 @@ import OrderList from "./OrderList.vue"
 
 
 
+
 .content{
 
 
@@ -119,10 +160,6 @@ import OrderList from "./OrderList.vue"
 
 
 
-/*
- Banner和订单之间的距离
-*/
-
 
 .order-area{
 
@@ -131,7 +168,6 @@ import OrderList from "./OrderList.vue"
 
 
 }
-
 
 
 

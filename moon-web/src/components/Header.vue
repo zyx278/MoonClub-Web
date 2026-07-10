@@ -1,28 +1,27 @@
 <template>
 
+
 <header class="header">
 
 
-  <!-- Logo -->
+  <!-- 左侧 Logo -->
 
-  <div class="logo">
+  <div class="logo-area">
 
 
-    <div class="moon">
-      🌙
+    <div class="logo">
+
+
+      🌙 皎月电竞 Club
+
+
     </div>
 
 
-    <div>
-
-      <h1>
-        皎月电竞 Club
-      </h1>
+    <div class="sub-title">
 
 
-      <p>
-        专业三角洲行动护航俱乐部
-      </p>
+      专业三角洲行动护航俱乐部
 
 
     </div>
@@ -34,35 +33,43 @@
 
 
 
-  <!-- 官网导航 -->
+
+  <!-- 中间导航 -->
 
   <nav class="nav">
 
 
-    <div
-        class="nav-item"
-        @click="goOrder"
+    <router-link
+      to="/"
+      class="nav-item"
     >
+
       订单合集
-    </div>
+
+    </router-link>
 
 
 
-    <div
-        class="nav-item"
-        @click="comingSoon"
+    <router-link
+      to="/rent"
+      class="nav-item"
     >
+
       租号大厅
-    </div>
+
+    </router-link>
 
 
 
-    <div
-        class="nav-item"
-        @click="comingSoon"
+    <router-link
+      to="/notice"
+      class="nav-item"
     >
+
       最新公告
-    </div>
+
+    </router-link>
+
 
 
   </nav>
@@ -71,13 +78,38 @@
 
 
 
-  <!-- 联系客服 -->
 
-  <ContactButton />
+
+  <!-- 右侧按钮 -->
+
+  <div class="right-area">
+
+
+
+    <button
+      class="admin-btn"
+      @click="goAdmin"
+    >
+
+      ⚙ 管理入口
+
+    </button>
+
+
+
+
+
+    <ContactButton />
+
+
+
+  </div>
+
 
 
 
 </header>
+
 
 </template>
 
@@ -90,11 +122,13 @@
 <script setup>
 
 
-import ContactButton from "./contact/ContactButton.vue"
-
 import {
   useRouter
 } from "vue-router"
+
+
+import ContactButton from "./contact/ContactButton.vue"
+
 
 
 
@@ -104,23 +138,11 @@ const router = useRouter()
 
 
 
-// 订单合集
-
-function goOrder(){
-
-  router.push("/")
-
-}
+const goAdmin=()=>{
 
 
+  router.push("login")
 
-
-
-// 暂未开放
-
-function comingSoon(){
-
-  alert("功能正在施工中，敬请期待！")
 
 }
 
@@ -138,55 +160,67 @@ function comingSoon(){
 <style scoped>
 
 
+
 .header{
 
 
-    height:80px;
+  height:80px;
 
+  background:white;
 
-    background:white;
+  display:flex;
 
+  align-items:center;
 
-    display:flex;
+  justify-content:space-between;
 
+  padding:0 60px;
 
-    justify-content:space-between;
-
-
-    align-items:center;
-
-
-    padding:0 60px;
-
-
-    box-shadow:0 3px 12px rgba(0,0,0,.06);
-
-
-    position:sticky;
-
-
-    top:0;
-
-
-    z-index:1000;
-
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
 
 }
 
 
+
+
+
+/* Logo */
+
+
+.logo-area{
+
+
+  display:flex;
+
+  flex-direction:column;
+
+
+}
 
 
 
 .logo{
 
 
-    display:flex;
+  font-size:28px;
+
+  font-weight:800;
+
+  color:#2563eb;
 
 
-    align-items:center;
+}
 
 
-    gap:15px;
+
+.sub-title{
+
+
+  font-size:13px;
+
+  color:#888;
+
+  margin-top:4px;
 
 
 }
@@ -195,96 +229,41 @@ function comingSoon(){
 
 
 
-.moon{
 
-
-    font-size:38px;
-
-}
-
-
-
-
-
-.logo h1{
-
-
-    color:#2563eb;
-
-
-    font-size:32px;
-
-
-    margin:0;
-
-
-}
-
-
-
-
-
-.logo p{
-
-
-    color:#666;
-
-
-    font-size:14px;
-
-
-    margin-top:4px;
-
-
-}
-
-
-
+/* 导航 */
 
 
 .nav{
 
 
-    display:flex;
+  display:flex;
 
-
-    gap:55px;
-
+  gap:45px;
 
 }
-
-
 
 
 
 .nav-item{
 
 
-    color:#444;
+  text-decoration:none;
 
+  color:#444;
 
-    font-size:18px;
+  font-size:16px;
 
-
-    cursor:pointer;
-
-
-    transition:.3s;
-
-
-    position:relative;
+  transition:.2s;
 
 
 }
-
-
 
 
 
 .nav-item:hover{
 
 
-    color:#2563eb;
+  color:#2563eb;
 
 
 }
@@ -294,37 +273,16 @@ function comingSoon(){
 
 
 
-.nav-item::after{
+
+/* 右侧 */
 
 
-    content:"";
+.right-area{
 
 
-    position:absolute;
+  display:flex;
 
-
-    bottom:-8px;
-
-
-    left:50%;
-
-
-    width:0;
-
-
-    height:3px;
-
-
-    background:#2563eb;
-
-
-    border-radius:3px;
-
-
-    transform:translateX(-50%);
-
-
-    transition:.3s;
+  align-items:center;
 
 
 }
@@ -333,14 +291,41 @@ function comingSoon(){
 
 
 
-.nav-item:hover::after{
 
 
-    width:100%;
+/* 管理入口 */
+
+
+.admin-btn{
+
+
+  border:none;
+
+  background:transparent;
+
+  color:#888;
+
+  font-size:14px;
+
+  cursor:pointer;
+
+  margin-right:20px;
+
+  transition:.2s;
 
 
 }
 
+
+
+
+.admin-btn:hover{
+
+
+  color:#2563eb;
+
+
+}
 
 
 

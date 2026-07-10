@@ -5,6 +5,7 @@
 
     <div class="card-header">
 
+
       <div>
 
         <p class="eyebrow">
@@ -61,7 +62,6 @@
 
         />
 
-
       </label>
 
 
@@ -86,13 +86,13 @@
 
               v-for="item in categories"
 
-              :key="item"
+              :key="item.id"
 
-              :value="item"
+              :value="item.name"
 
           >
 
-            {{ item }}
+            {{ item.name }}
 
           </option>
 
@@ -101,6 +101,7 @@
 
 
       </label>
+
 
 
 
@@ -217,9 +218,15 @@
 
 import {
 
-  ref
+  ref,
+
+  onMounted
 
 } from "vue"
+
+
+
+import axios from "axios"
 
 
 
@@ -254,17 +261,13 @@ const apiOrigin =
 
 
 
-const categories=[
 
-  "体验单",
+/**
+ * 分类列表
+ * 从后台 category 表获取
+ */
+const categories = ref([])
 
-  "护航单",
-
-  "趣味单",
-
-  "活动专区"
-
-]
 
 
 
@@ -283,13 +286,15 @@ const previewImage = ref(null)
 
 
 
-const emptyForm=()=>({
+
+
+const emptyForm = () => ({
 
 
   title:"",
 
 
-  category:"体验单",
+  category:"",
 
 
   description:"",
@@ -304,9 +309,64 @@ const emptyForm=()=>({
 
 
 
-const form=ref(
+const form = ref(
+
     emptyForm()
+
 )
+
+
+
+
+
+
+
+/**
+ * 获取订单分类
+ */
+function loadCategories(){
+
+
+  axios.get(
+
+      "http://localhost:8080/api/category"
+
+  )
+
+  .then(res=>{
+
+
+    categories.value =
+
+        res.data.data || []
+
+
+
+    /**
+     * 新增订单默认选择第一个分类
+     */
+    if(
+
+        !form.value.category
+
+        &&
+
+        categories.value.length>0
+
+    ){
+
+      form.value.category =
+          categories.value[0].name
+
+    }
+
+
+  })
+
+
+}
+
+
 
 
 
@@ -317,7 +377,8 @@ const form=ref(
 function selectFile(e){
 
 
-  const selected=e.target.files[0]
+  const selected =
+      e.target.files[0]
 
 
   if(!selected){
@@ -327,7 +388,8 @@ function selectFile(e){
   }
 
 
-  file.value=selected
+  file.value =
+      selected
 
 
   previewImage.value =
@@ -343,34 +405,55 @@ function selectFile(e){
 
 
 
+
 function saveOrder(){
 
 
   if(!form.value.title.trim()){
 
+
     alert("请输入订单名称")
+
 
     return
 
+
   }
+
 
 
 
   if(!form.value.description.trim()){
 
+
     alert("请输入订单简介")
 
+
     return
+
 
   }
 
 
 
-  if(!editId.value&&!file.value){
+
+
+  if(
+
+      !editId.value
+
+      &&
+
+      !file.value
+
+  ){
+
 
     alert("请选择封面图片")
 
+
     return
+
 
   }
 
@@ -379,11 +462,17 @@ function saveOrder(){
 
 
 
-  const task=file.value
+
+
+
+  const task = file.value
+
 
       ?
 
+
       uploadImage(file.value)
+
           .then(res=>{
 
 
@@ -394,7 +483,9 @@ function saveOrder(){
           })
 
 
+
       :
+
 
       Promise.resolve()
 
@@ -409,16 +500,25 @@ function saveOrder(){
 
     return editId.value
 
+
         ?
+
 
         updateOrder(form.value)
 
+
+
         :
+
+
 
         createOrder(form.value)
 
 
+
   })
+
+
 
   .then(()=>{
 
@@ -438,10 +538,13 @@ function saveOrder(){
     )
 
 
+
     resetForm()
 
 
+
     emit("success")
+
 
 
   })
@@ -461,12 +564,15 @@ function editOrder(item){
 
 
 
-  editId.value=item.id
+  editId.value =
+      item.id
 
 
 
 
-  form.value={
+
+
+  form.value = {
 
 
     id:item.id,
@@ -490,24 +596,32 @@ function editOrder(item){
 
 
 
+
+
   file.value=null
 
 
 
 
-  previewImage.value=item.coverImage
 
-      ?
 
-      apiOrigin+item.coverImage
 
-      :
+  previewImage.value =
 
-      null
+      item.coverImage
+
+          ?
+
+          apiOrigin + item.coverImage
+
+          :
+
+          null
 
 
 
 }
+
 
 
 
@@ -519,6 +633,7 @@ function editOrder(item){
 function resetForm(){
 
 
+
   editId.value=null
 
 
@@ -528,10 +643,27 @@ function resetForm(){
   previewImage.value=null
 
 
-  form.value=emptyForm()
+
+  form.value =
+      emptyForm()
+
+
+
+  /**
+   * 重置后重新设置默认分类
+   */
+  if(categories.value.length>0){
+
+
+    form.value.category =
+        categories.value[0].name
+
+
+  }
 
 
 }
+
 
 
 
@@ -549,7 +681,25 @@ defineExpose({
 
 
 
+
+
+
+
+
+
+onMounted(()=>{
+
+
+  loadCategories()
+
+
+})
+
+
+
 </script>
+
+
 
 
 
@@ -585,6 +735,8 @@ defineExpose({
 
 
 
+
+
 .card-header{
 
 
@@ -601,6 +753,7 @@ defineExpose({
 
 
 }
+
 
 
 
@@ -644,6 +797,8 @@ h2{
 
 
 
+
+
 .form{
 
 
@@ -657,6 +812,7 @@ h2{
 
 
 }
+
 
 
 
@@ -682,6 +838,8 @@ label{
 
 
 }
+
+
 
 
 
@@ -713,6 +871,8 @@ textarea{
 
 
 
+
+
 textarea{
 
 
@@ -723,6 +883,8 @@ textarea{
 
 
 }
+
+
 
 
 
@@ -748,7 +910,8 @@ textarea:focus{
 
 
 
-.image-preview{
+
+image-preview{
 
 
   width:100%;
@@ -772,6 +935,8 @@ textarea:focus{
 
 
 
+
+
 .image-preview img{
 
 
@@ -785,6 +950,7 @@ textarea:focus{
 
 
 }
+
 
 
 
@@ -824,6 +990,8 @@ textarea:focus{
 
 
 
+
+
 .save-btn:hover{
 
 
@@ -831,6 +999,7 @@ textarea:focus{
 
 
 }
+
 
 
 

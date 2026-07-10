@@ -1,9 +1,11 @@
 <template>
 
+
 <div class="banner">
 
 
   <!-- 左侧文字区域 -->
+
   <div class="banner-content">
 
 
@@ -32,17 +34,21 @@
 
     <div class="tags">
 
+
       <span>
         ⭐ 全绿护航
       </span>
+
 
       <span>
         ⭐ 极速发车
       </span>
 
+
       <span>
         ⭐ 售后无忧
       </span>
+
 
     </div>
 
@@ -60,11 +66,32 @@
 
 
 
+
   <!-- 右侧活动图片 -->
+
   <div class="banner-image">
 
 
-      <div class="image-placeholder">
+
+      <img
+
+          v-if="currentBanner"
+
+          :src="imageUrl"
+
+          class="activity-image"
+
+      />
+
+
+
+      <div
+
+          v-else
+
+          class="image-placeholder"
+
+      >
 
           活动宣传图
 
@@ -72,12 +99,15 @@
       </div>
 
 
+
   </div>
 
 
 
 
+
 </div>
+
 
 
 </template>
@@ -86,10 +116,257 @@
 
 
 
+
+
+
 <script setup>
 
 
+import {
+
+    ref,
+
+    computed,
+
+    onMounted,
+
+    onUnmounted
+
+} from "vue"
+
+
+
+import request from "../api/request"
+
+
+
+
+
+
+
+const banners = ref([])
+
+
+
+const index = ref(0)
+
+
+
+let timer = null
+
+
+
+
+
+
+
+/**
+ * 获取Banner数据
+ */
+function loadBanner(){
+
+
+    return request.get("/api/banner")
+
+        .then(res=>{
+
+
+            banners.value =
+
+                res.data.data || []
+
+
+
+        })
+
+
+}
+
+
+
+
+
+
+
+/**
+ * 当前显示Banner
+ */
+const currentBanner = computed(()=>{
+
+
+    if(
+
+        banners.value.length === 0
+
+    ){
+
+        return null
+
+    }
+
+
+
+    return banners.value[index.value]
+
+
+})
+
+
+
+
+
+
+
+/**
+ * 图片地址
+ */
+const imageUrl = computed(()=>{
+
+
+    if(
+
+        !currentBanner.value
+
+    ){
+
+        return ""
+
+    }
+
+
+
+    return "http://localhost:8080"
+
+        +
+
+        currentBanner.value.image
+
+
+})
+
+
+
+
+
+
+
+
+
+/**
+ * 开始轮播
+ */
+function startLoop(){
+
+
+
+    if(
+
+        banners.value.length <= 1
+
+    ){
+
+        return
+
+    }
+
+
+
+
+
+
+    timer = setInterval(()=>{
+
+
+
+        index.value++
+
+
+
+
+        if(
+
+            index.value >= banners.value.length
+
+        ){
+
+            index.value = 0
+
+        }
+
+
+
+    },4000)
+
+
+
+}
+
+
+
+
+
+
+
+
+
+onMounted(()=>{
+
+
+    loadBanner()
+
+        .then(()=>{
+
+
+            startLoop()
+
+
+        })
+
+        .catch(err=>{
+
+
+            console.error(
+
+                "Banner加载失败",
+
+                err
+
+            )
+
+
+        })
+
+
+})
+
+
+
+
+
+
+
+
+onUnmounted(()=>{
+
+
+    if(timer){
+
+
+        clearInterval(timer)
+
+
+    }
+
+
+})
+
+
+
 </script>
+
+
+
+
 
 
 
@@ -108,9 +385,13 @@
 
 
     background:linear-gradient(
+
         135deg,
+
         #2563eb,
+
         #60a5fa
+
     );
 
 
@@ -140,7 +421,7 @@
 
 
 
-/* 左侧内容 */
+
 
 .banner-content{
 
@@ -149,6 +430,9 @@
 
 
 }
+
+
+
 
 
 
@@ -168,6 +452,9 @@
 
 
 
+
+
+
 .moon{
 
 
@@ -175,6 +462,9 @@
 
 
 }
+
+
+
 
 
 
@@ -191,6 +481,8 @@
 
 
 }
+
+
 
 
 
@@ -213,6 +505,7 @@
 
 
 
+
 .tags{
 
 
@@ -230,6 +523,8 @@
 
 
 
+
+
 .tags span{
 
 
@@ -237,6 +532,7 @@
 
 
 }
+
 
 
 
@@ -262,9 +558,6 @@
 
 
 
-/* 右侧图片 */
-
-
 .banner-image{
 
 
@@ -284,6 +577,33 @@
 
 
 }
+
+
+
+
+
+
+
+.activity-image{
+
+
+    width:100%;
+
+
+    height:100%;
+
+
+    object-fit:cover;
+
+
+    border-radius:20px;
+
+
+}
+
+
+
+
 
 
 
@@ -321,9 +641,6 @@
 
 
 }
-
-
-
 
 
 

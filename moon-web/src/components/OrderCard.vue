@@ -23,7 +23,9 @@
             v-else
             class="empty"
         >
+
             暂无图片
+
         </div>
 
 
@@ -32,6 +34,9 @@
 
 
 
+
+    <!-- 内容 -->
+
     <div
         class="content"
         @click="goDetail"
@@ -39,21 +44,24 @@
 
 
         <h3>
+
             {{item.title}}
+
         </h3>
 
 
+
+
         <span class="tag">
+
             {{item.category}}
+
         </span>
 
 
-        <p>
-            {{item.description}}
-        </p>
-
 
     </div>
+
 
 
 
@@ -61,7 +69,12 @@
 
 
 
+
+
+
+
 <!-- 图片预览 -->
+
 
 <div
     v-if="showImage"
@@ -70,14 +83,22 @@
 >
 
 
+
     <img
+
         :src="imageUrl"
+
         class="big-image"
+
         @click.stop
+
     />
 
 
+
 </div>
+
+
 
 
 
@@ -85,48 +106,79 @@
 
 
 
+
+
+
+
 <script setup>
 
 
 import {
+
     computed,
+
     ref
+
 } from "vue"
 
 
+
 import {
+
     useRouter
+
 } from "vue-router"
+
+
+
 
 
 
 const props = defineProps({
 
+
     item:{
+
+
         type:Object,
+
+
         required:true
+
+
     }
+
 
 })
 
 
 
-const router=useRouter()
+
+
+const router = useRouter()
 
 
 
-const showImage=ref(false)
+const showImage = ref(false)
 
 
 
-const imageUrl=computed(()=>{
+
+
+
+
+
+const imageUrl = computed(()=>{
 
 
     if(!props.item.coverImage){
 
+
         return ""
 
+
     }
+
 
 
     return "http://localhost:8080"
@@ -134,7 +186,12 @@ const imageUrl=computed(()=>{
     props.item.coverImage
 
 
+
 })
+
+
+
+
 
 
 
@@ -143,14 +200,24 @@ function goDetail(){
 
 
     router.push(
+
         "/detail/"+props.item.id
+
     )
 
 
 }
 
 
+
+
+
 </script>
+
+
+
+
+
 
 
 
@@ -161,33 +228,63 @@ function goDetail(){
 .card{
 
 
-background:white;
+    background:white;
 
-border-radius:18px;
 
-overflow:hidden;
+    border-radius:18px;
 
-box-shadow:
-0 8px 25px rgba(0,0,0,.08);
+
+    overflow:hidden;
+
+
+    box-shadow:
+
+    0 8px 25px rgba(0,0,0,.08);
+
+
+    transition:.2s;
 
 
 }
 
 
 
+
+
+.card:hover{
+
+
+    transform:translateY(-5px);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* 图片 */
 
 
 .image-box{
 
 
-height:220px;
+    height:220px;
 
-cursor:pointer;
 
-background:#f3f4f6;
+    cursor:pointer;
+
+
+    background:#f3f4f6;
 
 
 }
+
+
 
 
 
@@ -195,84 +292,115 @@ background:#f3f4f6;
 .cover{
 
 
-width:100%;
+    width:100%;
 
-height:100%;
 
-object-fit:cover;
+    height:100%;
+
+
+    object-fit:cover;
 
 
 }
+
+
+
 
 
 
 .empty{
 
 
-height:100%;
+    height:100%;
 
-display:flex;
 
-justify-content:center;
+    display:flex;
 
-align-items:center;
 
-color:#999;
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    color:#999;
 
 
 }
 
+
+
+
+
+
+
+
+
+/* 内容 */
 
 
 .content{
 
 
-padding:20px;
+    padding:20px;
 
-cursor:pointer;
+
+    cursor:pointer;
 
 
 }
+
+
+
 
 
 
 h3{
 
 
-font-size:22px;
+    font-size:22px;
 
-margin-bottom:12px;
+
+    margin:0 0 15px;
+
+
+    font-weight:700;
 
 
 }
+
+
+
+
 
 
 
 .tag{
 
 
-background:#dbeafe;
-
-color:#2563eb;
-
-padding:5px 15px;
-
-border-radius:20px;
+    display:inline-block;
 
 
-}
+    background:#dbeafe;
 
 
+    color:#2563eb;
 
-p{
+
+    padding:5px 15px;
 
 
-margin-top:15px;
+    border-radius:20px;
 
-color:#666;
+
+    font-size:14px;
 
 
 }
+
+
+
+
 
 
 
@@ -284,31 +412,43 @@ color:#666;
 .mask{
 
 
-position:fixed;
-
-left:0;
-
-top:0;
-
-right:0;
-
-bottom:0;
+    position:fixed;
 
 
-background:rgba(0,0,0,.75);
+    left:0;
 
 
-display:flex;
-
-justify-content:center;
-
-align-items:center;
+    top:0;
 
 
-z-index:9999;
+    right:0;
+
+
+    bottom:0;
+
+
+
+    background:rgba(0,0,0,.75);
+
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+
+    z-index:9999;
+
 
 
 }
+
+
 
 
 
@@ -316,18 +456,21 @@ z-index:9999;
 .big-image{
 
 
-max-width:90%;
-
-max-height:90%;
+    max-width:90%;
 
 
-object-fit:contain;
+    max-height:90%;
 
 
-border-radius:10px;
+    object-fit:contain;
+
+
+    border-radius:10px;
+
 
 
 }
+
 
 
 </style>

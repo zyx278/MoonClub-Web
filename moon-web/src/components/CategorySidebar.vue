@@ -13,50 +13,27 @@
 
 
     <div
-        class="category-item active"
-    >
 
-      🔥 热门推荐
+        v-for="item in categories"
 
-    </div>
+        :key="item.id"
 
-
-
-    <div
         class="category-item"
+
+        :class="{
+
+          active:item.name===currentCategory
+
+        }"
+
+        @click="selectCategory(item.name)"
+
     >
 
-      🎮 体验单
+      {{ getIcon(item.name) }}
 
-    </div>
+      {{ item.name }}
 
-
-
-    <div
-        class="category-item"
-    >
-
-      🛡 护航单
-
-    </div>
-
-
-
-    <div
-        class="category-item"
-    >
-
-      🎲 趣味单
-
-    </div>
-
-
-
-    <div
-        class="category-item"
-    >
-
-      🎁 活动专区
 
     </div>
 
@@ -73,6 +50,149 @@
 
 
 <script setup>
+
+
+import {
+
+  ref,
+
+  onMounted
+
+} from "vue"
+
+
+
+import axios from "axios"
+
+
+
+
+
+const emit = defineEmits([
+
+    "change"
+
+])
+
+
+
+
+
+const categories = ref([])
+
+
+
+
+
+const currentCategory = ref(
+    "热门推荐"
+)
+
+
+
+
+
+
+function loadCategories(){
+
+
+  axios.get(
+
+      "http://localhost:8080/api/category"
+
+  )
+
+  .then(res=>{
+
+
+    categories.value =
+
+        (res.data.data || [])
+
+            .filter(item=>item.status===1)
+
+
+
+  })
+
+
+}
+
+
+
+
+
+
+
+function selectCategory(name){
+
+
+  currentCategory.value=name
+
+
+  emit(
+
+      "change",
+
+      name
+
+  )
+
+
+}
+
+
+
+
+
+
+
+
+function getIcon(name){
+
+
+  const map={
+
+
+    "热门推荐":"🔥",
+
+
+    "体验单":"🎮",
+
+
+    "护航单":"🛡",
+
+
+    "趣味单":"🎲",
+
+
+    "活动专区":"🎁"
+
+
+  }
+
+
+
+  return map[name] || "📦"
+
+
+}
+
+
+
+
+
+
+
+
+onMounted(()=>{
+
+
+  loadCategories()
+
+
+})
+
 
 
 </script>
@@ -117,6 +237,8 @@
 
 
 
+
+
 .title{
 
 
@@ -133,6 +255,8 @@
 
 
 }
+
+
 
 
 
@@ -177,6 +301,8 @@
 
 
 
+
+
 .category-item:hover{
 
 
@@ -187,6 +313,8 @@
 
 
 }
+
+
 
 
 
